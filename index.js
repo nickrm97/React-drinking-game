@@ -10,28 +10,31 @@ class App extends Component {
       deck: [
         {emoji: "heart", title: "Drink Twice", desc: "hello there my friends"},
         {emoji: "smile", title: "Skull drink", desc: "this card at all"},
-        {emoji: "rainbow", title: "Rainbow", desc: "this card is fun"}
+        {emoji: "rainbow", title: "Eat Food", desc: "this card is fun"}
         ],
-      currentCard: {emoji: "test", title: "Hello bark", desc: "this card is fun"}
+      currentCard: {},
+      gameState: "selecting" // Selecting, starting, playing, end
+      // At end, use a new deck or start again.
     };
   }
 
-  // retrieveNewCard = () =>{
-  //   if (this.state.deck)
-  // }
-
   retrieveNewCard = () => {
-    this.setState({deck: "bark"})
-    console.log(this.state.deck)
+    const deck = this.state.deck;
+    if (deck.length) {
+      const currentCard = deck.pop();
+      this.setState({currentCard});
+    }
+    else {
+      this.setState({gameState: "end"})
+    }
   }
 
   render() {
     return (
       <div>
         <Card card={this.state.currentCard} />
-        <button onSubmit={this.retrieveNewCard}>Click me</button>
-        <p>
-        </p>
+        <button onClick={this.retrieveNewCard}>Click me</button>
+        {this.state.gameState}
       </div>
     );
   }
